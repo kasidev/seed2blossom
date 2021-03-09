@@ -1,0 +1,7 @@
+Live url
+https://kasidevflowtask.azurewebsites.net/
+
+Start project in DEVMode
+npm run start dev
+http://localhost:8080/
+

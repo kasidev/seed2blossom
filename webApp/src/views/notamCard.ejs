@@ -1,0 +1,29 @@
+<tr class="notamRow1"  data-notamid="<%= notamId %>" >
+    <td><%= key %></td>
+    <td> <%= subject %></td>
+    <td> <%= subarea %></td>
+    <td> <%= condition %></td>
+    <td> <%= modifier %></td>
+</tr>
+<tr class="notamRow2"  data-notamid="<%= notamId %>" >
+    <td colspan="2"><%= start %></td>
+    <td colspan="2"> <%= end %></td>
+</tr>
+<tr class="notamRow3"  data-notamid="<%= notamId %>" >
+    <td colspan="5"><%= notamText %></td>
+</tr>
+<tr class="notamRow4"  data-notamid="<%= notamId %>" >
+    <td colspan="4"><%= remark %></td>
+    <td>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item asStatus1" data-notamid="<%= notamId %>" href="#">Not relevant </a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </div>
+    </td>
+</tr>

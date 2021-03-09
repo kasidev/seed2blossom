@@ -1,0 +1,62 @@
+{
+  "name": "azurewebapp",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "live": "nodemon node ./bin/www",
+    "build": "webpack --mode production",
+    "watch": "webpack --watch --mode development",
+    "dev": "npm-run-all -p watch live"
+  },
+  "dependencies": {
+    "@azure/cosmos": "^3.7.4",
+    "axios": "^0.21.1",
+    "babel-cli": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-app": "^3.1.2",
+    "bootstrap": "^4.5.3",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "ejs": "^3.1.5",
+    "eventemitter3": "^4.0.4",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "lodash": "^4.17.15",
+    "metar": "^1.0.0",
+    "moment": "^2.27.0",
+    "moment-timezone": "^0.5.31",
+    "morgan": "~1.9.1",
+    "xml-js": "^1.6.11",
+    "xml2js": "^0.4.23"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.12.10",
+    "ejs-compiled-loader": "^3.0.0",
+    "ejs-webpack-loader": "^2.2.2",
+    "nodemon": "^2.0.4",
+    "nodemon-webpack-plugin": "^4.3.2",
+    "npm-run-all": "^4.1.5",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  },
+  "description": "a boiler plate for an azure web app",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kasidev/azureWebappBoilerplate.git"
+  },
+  "keywords": [
+    "azure",
+    "webapp",
+    "boilerplate",
+    "webpack",
+    "express"
+  ],
+  "author": "kasiDev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kasidev/azureWebappBoilerplate/issues"
+  },
+  "homepage": "https://github.com/kasidev/azureWebappBoilerplate#readme"
+}

@@ -1,0 +1,2 @@
+{"icaoNotamApi" : "https://v4p4sz5ijk.execute-api.us-east-1.amazonaws.com/anbdata/states/notams/notams-realtime-list?api_key=e391a410-c020-11e9-ab84-298afd8f83df&format=json&criticality=&locations=",
+"azureAuthKey" : "CdY7ib3CRcY1ZDEm83oEkwAoDVaVcVB3Fhm1hVnyRcLJoDTBNttBBuwn7rHOAZzhpH3YOdsRW8ywCefJhFu1MA=="}

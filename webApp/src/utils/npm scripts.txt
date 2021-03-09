@@ -1,0 +1,6 @@
+"scripts": {
+    "start": "npx webpack --mode production --config webpack.config.js && node ./bin/www",
+    "live": "nodemon server.js",
+    "build": "webpack --mode development --config webpack.config.js",
+    "watch": "webpack --watch"
+  },

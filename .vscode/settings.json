@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/f14e344b-b1d3-48f2-a8f9-d0eba19ed5f7/resourceGroups/kasiDevSpace/providers/Microsoft.Web/sites/seed2blossom",
+    "appService.deploySubpath": "webApp"
+}
