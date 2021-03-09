@@ -1,1 +1,3 @@
 webApp\config.js
+webApp\package-lock.json
+webApp\public\dist\main.js
