@@ -13,7 +13,6 @@ router.get('/', function(req, res, next) {
 router.get('/test', function(req, res, next) {
   res.send('This is a test')})
 
-console.log("test")
 
 router.post('/SendInvoices',function(req,res,next){
   res.send('test test')

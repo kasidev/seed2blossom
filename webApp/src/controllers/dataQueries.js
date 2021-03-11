@@ -4,8 +4,8 @@ const {findItemsOfType} = require('./curd')
 
 
 
-module.exports.getGenusData = async function getConfigFromDb(){
+module.exports.getGenusData = async function getGenusData(){
     const response = await findItemsOfType(1)
-    const obj = response[0]
+    const obj = response
     return obj
     }

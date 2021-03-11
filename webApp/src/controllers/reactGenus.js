@@ -1,6 +1,7 @@
 'use strict'
 const {getGenusData} = require('./dataQueries')
 const moment = require('moment')
+const queryString = require('query-string');
 
 const e = React.createElement;
 
@@ -17,18 +18,32 @@ let dataObject = [
 ]
 
 
-class loading extends React.Component{
+class genusList extends React.Component{
     constructor(props){
         super(props)
     
         this.state={
         status : 'test'
+        ,data : dataObject
         }
     }
 
     render(){
-        console.log("loading")
-        return e("h1",{className : "display"},"Loading Data")
+        const genusElement = this.state.data.map((obj,index)=>{
+            return    e(renderGenusElement,{genusData : obj, key : obj.id})
+        })
+        return e("div", 
+        {className: "container"},
+        e("div",{className : "row justify-content-center"},
+
+            e("div",{className : "col-4 align-items-center"},
+                e("h1",
+                {className: ""}
+                ,'Genus List')
+            )
+        )
+        ,e("div",{},genusElement)
+        )
         
     }
 }
@@ -85,45 +100,25 @@ export class notamList extends React.Component{
     }
 }
 
-class notamElement extends React.Component{
+class renderGenusElement extends React.Component{
      constructor(props){
         super(props)
-        this.onCheckOkButton=this.onCheckOkButton.bind(this)
         this.state={
             isChecked : false
         }
     }
     
-    onCheckOkButton(){
-        const id=this.props.notamData.id
-        const updateParams = {
-            notamId     :   id,
-            key         :   "assesmentStatus",
-            value       :   1   
-        }
-        const index = updateLog.findIndex((updateInstr)=>updateInstr.id===updateParams.id)
-        if (index != -1) {
-            updateLog[index] = updateParams
-          }else{updateLog.push(updateParams)}
-          this.setState({isChecked : true})
-                     
-    }
 
     render(){
-        const checkOkClass = this.state.isChecked ? 'checked' : 'test'
-        const renderFirstRow = e(notamRow1,{
-            key : this.props.notamData.id.concat("row1"),
-            notamID : this.props.notamData.id,
-            notamKey : this.props.notamData.key,
-            onCheckOkButton : this.onCheckOkButton,
+        const renderFirstRow = e(genusRow1,{
+            key : this.props.genusData.id.concat("row1"),
+            genusID : this.props.genusData.id,
+            genusKey : this.props.genusData.key,
 
-            description: [  this.props.notamData.SubArea,
-                            this.props.notamData.Condition,
-                            this.props.notamData.Subject,
-                            this.props.notamData.Modifier].join("-")
+            description: "Description"
         })
 
-        const renderSecondRow = e(notamRow2,{
+        /* const renderSecondRow = e(notamRow2,{
             key : this.props.notamData.id.concat("row2"),
             startdate : this.props.notamData.startdate,
             enddate : this.props.notamData.enddate,
@@ -135,52 +130,41 @@ class notamElement extends React.Component{
             remark : this.props.notamData.remark,
             all : this.props.notamData.all,
             notamID : this.props.notamData.id
-        })
+        }) */
 
         return e("div", 
-        {className: `row ${checkOkClass}`}
+        {className: ""}
         ,e("div",{className : "col-12"}
-            ,renderFirstRow)
+            ,renderFirstRow))
+        /*    
         ,e("div",{className : "col-12"}
             ,renderSecondRow)
         ,e("div",{className : "col-12"}
             ,renderThirdRow)
-        )
+        )*/
     }
 }
 
 
-class notamRow1 extends React.Component{
+class genusRow1 extends React.Component{
        constructor(props){
           super(props)
 
       } 
 
-    actionReq(){
-        const id=this.props.notamID
-        const updateParams = {
-            notamId     :   id,
-            key         :   "assesmentStatus",
-            value       :   2   
-        }
-        const index = updateLog.findIndex((updateInstr)=>updateInstr.id===updateParams.id)
-        if (index != -1) {
-            updateLog[index] = updateParams
-          }else{updateLog.push(updateParams)}            
-        }
 
       render(){
 
           return e("div", 
           {className: "row notamRow1"},
-            e("div",{className : "col-3"},this.props.notamKey),
+            e("div",{className : "col-3"},this.props.genusKey),
             e("div",{className : "col-6"},this.props.description),
             e("div",{className : "col-3"}, 
                 e("div",{className : "row"},
                     e("div",{className : "col-8"},
                         e("button",
-                            {onClick: () => this.props.onCheckOkButton()}
-                            ,"check Ok")),
+                            {}
+                            ,"Go")),
                     /* e("div",{className : "col-6"},
                         e("button",
                         {onClick: () => this.actionReq()}
@@ -191,7 +175,7 @@ class notamRow1 extends React.Component{
       }
   }
 
-class notamRow2 extends React.Component{
+/* class notamRow2 extends React.Component{
 constructor(props){
     super(props)
     this.changeAssessment=this.changeAssessment.bind(this)
@@ -277,7 +261,7 @@ class notamRow3 extends React.Component{
             )
         
         }
-    }
+    } */
 
 
 const domContainer2 = document.querySelector('#reactGenusSelect')
@@ -286,14 +270,13 @@ const domContainer2 = document.querySelector('#reactGenusSelect')
 
 const getData = async () => {
     dataObject = await getGenusData()
-    //dataObject.push(await findItemsOfType(1))
 
     return Promise
 }
 export function displayData (reactContainer) {
     if(reactContainer){
         getData().then(()=>{
-            ReactDOM.render(e(loading), reactContainer)
+            ReactDOM.render(e(genusList), reactContainer)
             console.log("data received")
             console.log(dataObject)
         })
