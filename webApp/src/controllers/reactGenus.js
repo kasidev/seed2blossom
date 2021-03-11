@@ -107,6 +107,8 @@ class renderGenusElement extends React.Component{
             isChecked : false
         }
     }
+
+
     
 
     render(){
@@ -114,6 +116,7 @@ class renderGenusElement extends React.Component{
             key : this.props.genusData.id.concat("row1"),
             genusID : this.props.genusData.id,
             genusKey : this.props.genusData.key,
+            genusName : this.props.genus,
 
             description: "Description"
         })
@@ -157,7 +160,8 @@ class genusRow1 extends React.Component{
 
           return e("div", 
           {className: "row notamRow1"},
-            e("div",{className : "col-3"},this.props.genusKey),
+            e("div",{className : "col-3"},
+                e("a",{className : "btn btn-primary", href : `https://test.com/?id=${this.props.genusID}`},this.props.genusName)),
             e("div",{className : "col-6"},this.props.description),
             e("div",{className : "col-3"}, 
                 e("div",{className : "row"},
