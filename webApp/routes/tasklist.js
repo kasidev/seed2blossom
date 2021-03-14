@@ -67,6 +67,22 @@ const { isEmpty, max, indexOf } = require("lodash");
   }
   
 
+  async findWithProp(req, res) {
+    const querySpec = {
+      query: `SELECT * FROM c WHERE c.${req.query.prop} = @value`,
+      parameters: [
+        {
+          name: "@value",
+          value: req.query.value
+        }
+      ]
+    };
+    //console.log(querySpec)
+    const items = await this.taskDao.find(querySpec)
+
+    res.status(200).send(items)
+  }
+
 
   //add NOTAM to database
   async addNew(req,res){

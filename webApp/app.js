@@ -59,6 +59,7 @@ const CosmosClient = require('@azure/cosmos').CosmosClient
  app.get('/findItem', (req, res, next) =>taskList.findItem(req, res).catch(next))
  app.get('/dbTest', (req, res, next) =>taskList.dbTest(req, res).catch(next))
  app.get('/findItemsOfType', (req, res, next) =>taskList.findItemsOfType(req, res).catch(next))
+ app.get('/findWithProp', (req, res, next) =>taskList.findWithProp(req, res).catch(next))
 
 
 

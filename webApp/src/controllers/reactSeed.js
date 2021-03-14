@@ -1,5 +1,5 @@
 'use strict'
-const {getGenusData} = require('./dataQueries')
+const {getItemData} = require('./dataQueries')
 const moment = require('moment')
 const queryString = require('query-string');
 const url ="http://localhost:8080" 
@@ -21,39 +21,39 @@ let dataObject = [
 ]
 
 
-class genusList extends React.Component{
+class seedList extends React.Component{
     constructor(props){
         super(props)
     
         this.state={
         status : 'test'
-        ,data : dataObject
+        ,seedData : dataObject[1]
+        ,batchData : dataObject[2]
         }
     }
 
     render(){
-        const genusElement = this.state.data.map((obj,index)=>{
-            return    e(renderGenusElement,{genusData : obj, key : obj.id})
+        const seedElement = this.state.seedData.map((obj,index)=>{
+            return    e(renderSeedElement,{botanicalData : obj, key : obj.id})
         })
         return e("div", 
         {className: "container"},
         e("div",{className : "row justify-content-center"},
 
             e("div",{className : "col-4 align-items-center"},
-                e("h1",
-                {className: ""}
-                ,'Genus List')
+                e("a",
+                {className: "h1", href : `${url}/pages/batchList.html?id=${this.state.batchData[0].variety}`}
+                ,`${this.state.batchData[0].name} List`)
             )
         )
-        ,e("div",{},genusElement)
+        ,e("div",{},seedElement)
         )
         
     }
 }
 
 
-
-class renderGenusElement extends React.Component{
+class renderSeedElement extends React.Component{
      constructor(props){
         super(props)
         this.state={
@@ -65,14 +65,16 @@ class renderGenusElement extends React.Component{
     
 
     render(){
-        const renderFirstRow = e(genusRow1,{
-            key : this.props.genusData.id.concat("row1"),
-            genusID : this.props.genusData.id,
-            genusKey : this.props.genusData.key,
-            genusName : this.props.genusData.genus,
+        const renderFirstRow = e(varietyRow1,{
+            reactkey : this.props.botanicalData.id.concat("row1"),
+            id : this.props.botanicalData.id,
+            key : this.props.botanicalData.key,
+            name : this.props.botanicalData.callsign,
 
             description: "Description"
         })
+
+        
 
         return e("div", 
         {className: ""}
@@ -83,7 +85,7 @@ class renderGenusElement extends React.Component{
 }
 
 
-class genusRow1 extends React.Component{
+class varietyRow1 extends React.Component{
        constructor(props){
           super(props)
 
@@ -93,35 +95,39 @@ class genusRow1 extends React.Component{
       render(){
 
           return e("div", 
-          {className: "row genusRow1"},
+          {className: "row notamRow1"},
             e("div",{className : "col-3"},
-                e("a",{className : "btn btn-primary", href : `${url}/pages/varietyList.html?id=${this.props.genusID}`},this.props.genusName)),
+                e("a",{className : "btn btn-primary", href : `${url}/pages/seedList?id=${this.props.id}`},this.props.name)),
             e("div",{className : "col-4"},this.props.description),
             e("div",{className : "col-4"},
-                e("a",{className : "btn btn-primary", href : `${url}/edit?id=${this.props.genusID}&?type=genus`},"Edit"))
+                e("a",{className : "btn btn-primary", href : `${url}/edit?id=${this.props.id}&?type=variety`},"Edit"))
             )
       }
   }
 
 
 
-const domContainer2 = document.querySelector('#reactGenusSelect')
+const domContainer2 = document.querySelector('#reactSeed')
+
+
 
 
 
 const getData = async () => {
-    dataObject = await getGenusData()
-    const parsed = queryString.parse(location.search);
-    console.log(parsed);
-
-    return Promise
+    const urlQuery = queryString.parse(location.search);
+    console.log("variety id ",urlQuery.id);
+    const seedData = await getItemData("batch",urlQuery.id)
+    const batchData = await getItemData("id",urlQuery.id)
+    dataObject.push(seedData)
+    dataObject.push(batchData)
+        return Promise
 }
 export function displayData (reactContainer) {
     if(reactContainer){
         getData().then(()=>{
-            ReactDOM.render(e(genusList), reactContainer)
-            console.log("data received")
             console.log(dataObject)
+            ReactDOM.render(e(seedList), reactContainer)
+            
         })
     }
     

@@ -55,6 +55,24 @@ module.exports.findItemsOfType = function findItem(typeID) {
     })
 }
 
+module.exports.findWithProp = function findWithProp(property,value) {
+  return axios
+  .get(produrl+'/findWithProp?prop='+ property +'&value='+value)
+    .then(function (response) {
+      // handle success
+      //console.log("item Found",response.data);
+      return response.data
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    })
+}
+
+
 module.exports.setToComplete = function setToComplete(taskID) {
   let body={"taskID": taskID}
   return axios
