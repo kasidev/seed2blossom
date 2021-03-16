@@ -44,7 +44,6 @@ class genusList extends React.Component{
             return dbQuery[0]}
 
         getTemplate().then((template)=>{
-            console.log("new template", template)
             for (const key in template) {
             
                 const noEdit = ["typeName","typeID","id","_rid","_self","_etag","_attachments","_ts"]
@@ -57,10 +56,13 @@ class genusList extends React.Component{
                     cleanTemplate[key]=template[key]
                 }
             }
-            
+            addItem(cleanTemplate).then((response)=>{
+                console.log("new item id", response.id)
+                window.location.replace(`${url}/pages/edit.html?id=${response.id}&?type=genus`)
+                
+            })            
         })
-
-
+        
     } 
 
 

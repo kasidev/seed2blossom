@@ -91,14 +91,14 @@ module.exports.setToComplete = function setToComplete(taskID) {
 }
 
 module.exports.addItem = function addItem(itemData) {
-  let body=itemData
+  console.log(itemData)
   return axios
-  .post(produrl+'/addItem',body)
+  .post(produrl+'/addItem',itemData)
     .then(function (response) {
       
       // handle success
-      console.log(response.data);
-      console.log('task added');
+      console.log(response.data,"item added");
+      return response.data
     })
     .catch(function (error) {
       // handle error

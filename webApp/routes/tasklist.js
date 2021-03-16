@@ -97,8 +97,9 @@ const { isEmpty, max, indexOf } = require("lodash");
 
   //add item to database
   async addNew(req,res){
-    await this.taskDao.addItem(req.body)
-    res.status(200).send()
+    const response = await this.taskDao.addItem(req.body)
+    
+    res.status(200).send(response)
 
 
   }
