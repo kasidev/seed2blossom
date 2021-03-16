@@ -57,10 +57,12 @@ const CosmosClient = require('@azure/cosmos').CosmosClient
  app.post('/notamFilterQueryAllStatus',(req, res, next) =>taskList.notamFilterQueryAllStatus(req, res).catch(next))
  app.post('/notamUpdate',(req, res, next) =>taskList.notamUpdate(req, res).catch(next))
  app.get('/findItem', (req, res, next) =>taskList.findItem(req, res).catch(next))
+
  app.get('/dbTest', (req, res, next) =>taskList.dbTest(req, res).catch(next))
  app.get('/findItemsOfType', (req, res, next) =>taskList.findItemsOfType(req, res).catch(next))
  app.get('/findWithProp', (req, res, next) =>taskList.findWithProp(req, res).catch(next))
-
+ app.post('/updateItem',(req, res, next) =>taskList.itemUpdate(req, res).catch(next))
+ app.post('/addItem',(req, res, next) =>taskList.addNew(req, res).catch(next))
 
 
  

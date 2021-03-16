@@ -100,7 +100,7 @@ class varietyRow1 extends React.Component{
                 e("a",{className : "btn btn-primary", href : `${url}/pages/batchList.html?id=${this.props.id}`},this.props.name)),
             e("div",{className : "col-4"},this.props.description),
             e("div",{className : "col-4"},
-                e("a",{className : "btn btn-primary", href : `${url}/edit?id=${this.props.id}&?type=variety`},"Edit"))
+                e("a",{className : "btn btn-primary", href : `${url}/pages/edit.html?id=${this.props.id}&?type=variety`},"Edit"))
             )
       }
   }

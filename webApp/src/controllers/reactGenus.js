@@ -1,5 +1,10 @@
 'use strict'
+
+import { template } from 'lodash';
+
 const {getGenusData} = require('./dataQueries')
+const {getItemData} = require('./dataQueries')
+const {addItem} = require('./curd')
 const moment = require('moment')
 const queryString = require('query-string');
 const url ="http://localhost:8080" 
@@ -31,6 +36,34 @@ class genusList extends React.Component{
         }
     }
 
+    newItem() {
+        const typeID = 1
+        const cleanTemplate = {}
+        const getTemplate = async () =>{
+            const dbQuery = await getItemData("typeID",typeID)
+            return dbQuery[0]}
+
+        getTemplate().then((template)=>{
+            console.log("new template", template)
+            for (const key in template) {
+            
+                const noEdit = ["typeName","typeID","id","_rid","_self","_etag","_attachments","_ts"]
+                if(noEdit.indexOf(key) === -1){
+                    cleanTemplate[key]=null
+                }
+
+                const fixValues = ["typeName","typeID"]
+                if(fixValues.indexOf(key) != -1){
+                    cleanTemplate[key]=template[key]
+                }
+            }
+            
+        })
+
+
+    } 
+
+
     render(){
         const genusElement = this.state.data.map((obj,index)=>{
             return    e(renderGenusElement,{genusData : obj, key : obj.id})
@@ -46,6 +79,11 @@ class genusList extends React.Component{
             )
         )
         ,e("div",{},genusElement)
+        ,e("div",{className : "row justify-content-center"},
+            e("div",{className : "col-4 align-items-center"},
+                e("button",{className : "btn btn-primary", onClick: this.newItem},"new")
+                )
+            )
         )
         
     }
@@ -98,7 +136,7 @@ class genusRow1 extends React.Component{
                 e("a",{className : "btn btn-primary", href : `${url}/pages/varietyList.html?id=${this.props.genusID}`},this.props.genusName)),
             e("div",{className : "col-4"},this.props.description),
             e("div",{className : "col-4"},
-                e("a",{className : "btn btn-primary", href : `${url}/edit?id=${this.props.genusID}&?type=genus`},"Edit"))
+                e("a",{className : "btn btn-primary", href : `${url}/pages/edit.html?id=${this.props.genusID}&?type=genus`},"Edit"))
             )
       }
   }

@@ -17,6 +17,7 @@ const reactGenus  = require ('../src/controllers/reactGenus')
 const reactVariety  = require ('../src/controllers/reactVariety')
 const reactBatch  = require ('../src/controllers/reactBatch')
 const reactSeed  = require ('../src/controllers/reactSeed')
+const reactEdit  = require ('../src/controllers/reactEdit')
 
 //soapTest.init()
 

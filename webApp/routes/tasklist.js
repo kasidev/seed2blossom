@@ -83,48 +83,23 @@ const { isEmpty, max, indexOf } = require("lodash");
     res.status(200).send(items)
   }
 
+  //update item
+  async itemUpdate(req, res) {
+  
+    this.taskDao.updateItem(req.body.itemId,req.body.key,req.body.value)
+    
+    res.status(200).send()
+  }
 
-  //add NOTAM to database
+
+
+
+
+  //add item to database
   async addNew(req,res){
-    const querySpec = {
-      query: "SELECT * FROM c WHERE c.key = @notamKey AND  STARTSWITH(c.message, @notamStartText,true)",
-      parameters: [
-        {
-          name: "@notamKey",
-          value: req.body.key
-        },
-        {
-          name: "@notamStartText",
-          value: req.body.message.substring(0,11)
-        }
-      ]
-    };
-    //console.log(querySpec)
-    const items = await this.taskDao.find(querySpec)
-    //console.log(isEmpty(items))
-    if (isEmpty(items)) {
-      //console.log('notam', req.body.key, ' not in database')
-      req.body.storedInDatabaseAt = moment.unix()
-      req.body.storedInDatabaseBy = 'user'
-      req.body.initalCheckAt = null
-      req.body.initalCheckBy = null
-      req.body.lastEditAt = null
-      req.body.lastEditBy = null
-      req.body.remark = null
-      req.body.assesmentStatus = 0
-      req.body.startdate = moment.utc(req.body.startdate,'YYYY-MM-DDTHH:mm:ss.SSS').unix()
-      req.body.enddate = moment.utc(req.body.enddate,'YYYY-MM-DDTHH:mm:ss.SSS').unix()
-      req.body.Created = moment.utc(req.body.Created,'YYYY-MM-DDTHH:mm:ss.SSS').unix()
-      req.body.notamID = req.body.id
-      delete req.body.id
-      //console.log("item to create",req.body)
-      await this.taskDao.addItem(req.body)
-      
-    } else {
-      //console.log('notam', req.body.key, ' already in database')
-      
-    }
-    res.redirect('/')
+    await this.taskDao.addItem(req.body)
+    res.status(200).send()
+
 
   }
  

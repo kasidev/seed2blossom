@@ -90,10 +90,10 @@ module.exports.setToComplete = function setToComplete(taskID) {
     })
 }
 
-module.exports.addTask = function addTask(taskData) {
-  let body=taskData
+module.exports.addItem = function addItem(itemData) {
+  let body=itemData
   return axios
-  .post(produrl+'/addTask',body)
+  .post(produrl+'/addItem',body)
     .then(function (response) {
       
       // handle success
@@ -109,19 +109,17 @@ module.exports.addTask = function addTask(taskData) {
     })
 }
 
-module.exports.updateTask = function updateTask(taskID,key,value) {
-  let body= { "taskID"  : taskID,
-              "key"     : key,
-              "value"   : value}
+module.exports.updateItem = function updateItem(updateParams) {
   
   return axios
-  .post(produrl+'/updateTask',body)
+  .post(produrl+'/updateItem',updateParams)
     .then(function (response) {
       // handle success
-      console.log('task updated');
+      console.log('item updated',updateParams.key,updateParams.value);
     })
     .catch(function (error) {
       // handle error
+      console.log("an error occured")
       console.log(error);
     })
     .finally(function () {
