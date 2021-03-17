@@ -2,14 +2,13 @@
 
 import { template } from 'lodash';
 
-const {getGenusData} = require('./dataQueries')
 const {getItemData} = require('./dataQueries')
-const {addItem} = require('./curd')
 const moment = require('moment')
+const {createNewItem} = require('./newItem')
+const apiStrings = require('../utils/apiStrings.json')
 const queryString = require('query-string');
-const url ="http://localhost:8080" 
-//"https://seed2blossom.azurewebsites.net"
-//http://localhost:8080
+const {deleteItem} = require('./curd')
+
 
 const e = React.createElement;
 
@@ -36,34 +35,12 @@ class genusList extends React.Component{
         }
     }
 
-    newItem() {
-        const typeID = 1
-        const cleanTemplate = {}
-        const getTemplate = async () =>{
-            const dbQuery = await getItemData("typeID",typeID)
-            return dbQuery[0]}
 
-        getTemplate().then((template)=>{
-            for (const key in template) {
-            
-                const noEdit = ["typeName","typeID","id","_rid","_self","_etag","_attachments","_ts"]
-                if(noEdit.indexOf(key) === -1){
-                    cleanTemplate[key]=null
-                }
 
-                const fixValues = ["typeName","typeID"]
-                if(fixValues.indexOf(key) != -1){
-                    cleanTemplate[key]=template[key]
-                }
-            }
-            addItem(cleanTemplate).then((response)=>{
-                console.log("new item id", response.id)
-                window.location.replace(`${url}/pages/edit.html?id=${response.id}&?type=genus`)
-                
-            })            
-        })
-        
-    } 
+    newItem(){
+        createNewItem(1)
+    }
+
 
 
     render(){
@@ -126,8 +103,13 @@ class renderGenusElement extends React.Component{
 class genusRow1 extends React.Component{
        constructor(props){
           super(props)
+          this.delete = this.delete.bind(this)
 
-      } 
+      }
+      
+      delete(){
+        deleteItem(this.props.genusID)
+      }
 
 
       render(){
@@ -135,10 +117,12 @@ class genusRow1 extends React.Component{
           return e("div", 
           {className: "row genusRow1"},
             e("div",{className : "col-3"},
-                e("a",{className : "btn btn-primary", href : `${url}/pages/varietyList.html?id=${this.props.genusID}`},this.props.genusName)),
-            e("div",{className : "col-4"},this.props.description),
-            e("div",{className : "col-4"},
-                e("a",{className : "btn btn-primary", href : `${url}/pages/edit.html?id=${this.props.genusID}&?type=genus`},"Edit"))
+                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/varietyList.html?id=${this.props.genusID}`},this.props.genusName)),
+            e("div",{className : "col-3"},this.props.description),
+            e("div",{className : "col-3"},
+                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/edit.html?id=${this.props.genusID}&?type=genus`},"Edit")),
+            e("div",{className : "col-3"},
+                e("a",{className : "btn btn-danger", onClick : this.delete},"Delete"))
             )
       }
   }

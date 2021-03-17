@@ -63,6 +63,7 @@ const CosmosClient = require('@azure/cosmos').CosmosClient
  app.post('/findWithProp', (req, res, next) =>taskList.findWithProp(req, res).catch(next))
  app.post('/updateItem',(req, res, next) =>taskList.itemUpdate(req, res).catch(next))
  app.post('/addItem',(req, res, next) =>taskList.addNew(req, res).catch(next))
+ app.post('/deleteItem',(req, res, next) =>taskList.deleteItem(req, res).catch(next))
 
 
  

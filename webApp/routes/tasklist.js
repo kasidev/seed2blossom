@@ -91,17 +91,18 @@ const { isEmpty, max, indexOf } = require("lodash");
     res.status(200).send()
   }
 
-
-
-
-
   //add item to database
   async addNew(req,res){
     const response = await this.taskDao.addItem(req.body)
     
     res.status(200).send(response)
+  }
 
-
+  //delete item from database
+  async deleteItem(req,res){
+    const response = await this.taskDao.deleteItem(req.body.itemId)
+    
+    res.status(200).send(response)
   }
  
 

@@ -69,6 +69,12 @@ class TaskDao {
     const { resource } = await this.container.item(itemId, partitionKey).read()
     return resource
   }
+  async deleteItem(itemId){
+    debug('deleting an item from the database')
+    const { resource } = await this.container.item(itemId, partitionKey).delete()
+    return resource
+
+  }
 }
 
 module.exports = TaskDao

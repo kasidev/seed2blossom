@@ -2,9 +2,8 @@
 const {getItemData} = require('./dataQueries')
 const moment = require('moment')
 const queryString = require('query-string');
-const url ="http://localhost:8080" 
-//"https://seed2blossom.azurewebsites.net"
-//http://localhost:8080
+const {createNewItem} = require('./newItem')
+const apiStrings = require('../utils/apiStrings.json')
 
 const e = React.createElement;
 
@@ -32,6 +31,11 @@ class varietyList extends React.Component{
         }
     }
 
+    
+    newItem(){
+        createNewItem(2)
+    }
+
     render(){
         const varietyElement = this.state.varietyData.map((obj,index)=>{
             return    e(renderVarietyElement,{botanicalData : obj, key : obj.id})
@@ -42,11 +46,16 @@ class varietyList extends React.Component{
 
             e("div",{className : "col-4 align-items-center"},
                 e("a",
-                {className: "h1", href: `${url}/pages/index.html`}
+                {className: "h1", href: `${apiStrings.url}/pages/index.html`}
                 ,`${this.state.genusData[0].genus} List`)
             )
         )
         ,e("div",{},varietyElement)
+        ,e("div",{className : "row justify-content-center"},
+            e("div",{className : "col-4 align-items-center"},
+                e("button",{className : "btn btn-primary", onClick: this.newItem},"new")
+                )
+            )
         )
         
     }
@@ -97,10 +106,10 @@ class varietyRow1 extends React.Component{
           return e("div", 
           {className: "row notamRow1"},
             e("div",{className : "col-3"},
-                e("a",{className : "btn btn-primary", href : `${url}/pages/batchList.html?id=${this.props.id}`},this.props.name)),
+                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/batchList.html?id=${this.props.id}`},this.props.name)),
             e("div",{className : "col-4"},this.props.description),
             e("div",{className : "col-4"},
-                e("a",{className : "btn btn-primary", href : `${url}/pages/edit.html?id=${this.props.id}&?type=variety`},"Edit"))
+                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/edit.html?id=${this.props.id}&?type=variety`},"Edit"))
             )
       }
   }

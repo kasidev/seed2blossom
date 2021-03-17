@@ -1,8 +1,7 @@
 "use strict"
 const axios = require('axios');
-const devurl = "http://localhost:8080"
-const produrl ="http://localhost:8080" 
-//"https://seed2blossom.azurewebsites.net"
+const apiStrings = require('../utils/apiStrings.json')
+
 
 module.exports.queryAll = function queryAll(test) {
   return axios
@@ -23,7 +22,7 @@ module.exports.queryAll = function queryAll(test) {
 
 module.exports.findItem = function findItem(itemID) {
   return axios
-  .get(produrl+'/findItem?itemID='+itemID)
+  .get(apiStrings.url+'/findItem?itemID='+itemID)
     .then(function (response) {
       // handle success
       //console.log("item Found",response.data);
@@ -40,7 +39,7 @@ module.exports.findItem = function findItem(itemID) {
 
 module.exports.findItemsOfType = function findItem(typeID) {
   return axios
-  .get(produrl+'/findItemsOfType?typeID='+typeID)
+  .get(apiStrings.url+'/findItemsOfType?typeID='+typeID)
     .then(function (response) {
       // handle success
       //console.log("item Found",response.data);
@@ -59,7 +58,7 @@ module.exports.findWithProp = function findWithProp(property,value) {
   let body={prop: property,
             value : value}
   return axios
-  .post(produrl+'/findWithProp', body)
+  .post(apiStrings.url+'/findWithProp', body)
     .then(function (response) {
       // handle success
       //console.log("item Found",response.data);
@@ -78,7 +77,7 @@ module.exports.findWithProp = function findWithProp(property,value) {
 module.exports.setToComplete = function setToComplete(taskID) {
   let body={"taskID": taskID}
   return axios
-  .post(produrl+'/closeTask',body)
+  .post(apiStrings.url+'/closeTask',body)
     .then(function (response) {
       // handle success
       console.log('task closed',taskID);
@@ -95,7 +94,7 @@ module.exports.setToComplete = function setToComplete(taskID) {
 module.exports.addItem = function addItem(itemData) {
   console.log(itemData)
   return axios
-  .post(produrl+'/addItem',itemData)
+  .post(apiStrings.url+'/addItem',itemData)
     .then(function (response) {
       
       // handle success
@@ -114,7 +113,7 @@ module.exports.addItem = function addItem(itemData) {
 module.exports.updateItem = function updateItem(updateParams) {
   
   return axios
-  .post(produrl+'/updateItem',updateParams)
+  .post(apiStrings.url+'/updateItem',updateParams)
     .then(function (response) {
       // handle success
       console.log('item updated',updateParams.key,updateParams.value);
@@ -129,26 +128,25 @@ module.exports.updateItem = function updateItem(updateParams) {
     })
 }
 
-
-
-
-
-module.exports.checkAndSave = function checkAndSave(notamObj) {
-
+module.exports.deleteItem = function deleteItem(itemId) {
+  
   return axios
-  .post(produrl+'/addNew',notamObj)
+  .post(apiStrings.url+'/deleteItem',{itemId})
     .then(function (response) {
       // handle success
-      //console.log('checkAndSave sucess')
+      console.log('item deleted',itemId);
     })
     .catch(function (error) {
       // handle error
-      console.log('checkAndSave fail');
+      console.log("an error occured while trying to delete",itemId)
+      console.log(error);
     })
     .finally(function () {
       // always executed
     })
 }
+
+
 
 
 
