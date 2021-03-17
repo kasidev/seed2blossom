@@ -56,8 +56,10 @@ module.exports.findItemsOfType = function findItem(typeID) {
 }
 
 module.exports.findWithProp = function findWithProp(property,value) {
+  let body={prop: property,
+            value : value}
   return axios
-  .get(produrl+'/findWithProp?prop='+ property +'&value='+value)
+  .post(produrl+'/findWithProp', body)
     .then(function (response) {
       // handle success
       //console.log("item Found",response.data);

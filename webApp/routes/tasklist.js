@@ -60,7 +60,7 @@ const { isEmpty, max, indexOf } = require("lodash");
         }
       ]
     };
-    //console.log(querySpec)
+    console.log(querySpec)
     const items = await this.taskDao.find(querySpec)
 
     res.status(200).send(items)
@@ -69,15 +69,15 @@ const { isEmpty, max, indexOf } = require("lodash");
 
   async findWithProp(req, res) {
     const querySpec = {
-      query: `SELECT * FROM c WHERE c.${req.query.prop} = @value`,
+      query: `SELECT * FROM c WHERE c.${req.body.prop} = @value`,
       parameters: [
         {
           name: "@value",
-          value: req.query.value
+          value: req.body.value
         }
       ]
     };
-    //console.log(querySpec)
+    console.log("find with prop",querySpec)
     const items = await this.taskDao.find(querySpec)
 
     res.status(200).send(items)

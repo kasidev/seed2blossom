@@ -1,5 +1,6 @@
 'use strict'
 const {getItemData} = require('./dataQueries')
+const {addNewProp} = require('./dataQueries')
 const {updateItem} = require('./curd')
 const moment = require('moment')
 const queryString = require('query-string');
@@ -26,6 +27,7 @@ class editForm extends React.Component{
     constructor(props){
         super(props)
         this.commitChanges = this.commitChanges.bind(this)
+        this.newProp = this.newProp.bind(this)
     
         this.state={
         itemData : dataObject[0]
@@ -49,8 +51,30 @@ class editForm extends React.Component{
         }
     }
 
+    newProp(e){
+        const newProp = e.target.value
+        const typeId = this.state.itemData.typeID
+        if (newProp && confirm("add new property ?", newProp)) {
+        const allProps=Object.keys(this.state.itemData)
+                if (allProps.indexOf(newProp) === -1) {
+
+                    const newPropParams = {
+                        typeId: typeId,
+                        key : newProp,
+                        value : null
+                    }
+                    addNewProp(newPropParams)
+                    
+                    
+                }
+            }
+        
+    }
+
+
     commitChanges (){
         console.log(updateLog)
+        
         const excecuteUpdate = async () => {updateLog.map((updateObj)=>{
             updateItem(updateObj)})
             return Promise
@@ -86,6 +110,15 @@ class editForm extends React.Component{
             )
         )
         ,e("div",{},renderProp)
+        ,e("div",{className : "row justify-content-center"},
+                            
+            e("div",{className : "col-6 align-items-center"},
+                e("input",{className : "form-control",
+                            placeholder: "new property name",
+                            onBlur: this.newProp})
+                )
+            )
+
         ,e("div",{className : "row justify-content-center"},
             e("div",{className : "col-4 align-items-center"},
                 e("button",{className : "btn btn-primary", onClick : this.commitChanges},"update")

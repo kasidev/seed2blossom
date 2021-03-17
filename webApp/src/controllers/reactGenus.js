@@ -150,7 +150,7 @@ const domContainer2 = document.querySelector('#reactGenusSelect')
 
 
 const getData = async () => {
-    dataObject = await getGenusData()
+    dataObject = await getItemData("typeID",1)
     const parsed = queryString.parse(location.search);
     console.log(parsed);
 
