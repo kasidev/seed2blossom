@@ -4,6 +4,7 @@ const moment = require('moment')
 const queryString = require('query-string');
 const {createNewItem} = require('./newItem')
 const apiStrings = require('../utils/apiStrings.json')
+const {deleteItem} = require('./curd')
 
 const e = React.createElement;
 
@@ -23,6 +24,7 @@ let dataObject = [
 class varietyList extends React.Component{
     constructor(props){
         super(props)
+        this.newItem=this.newItem.bind(this)
     
         this.state={
         status : 'test'
@@ -33,7 +35,9 @@ class varietyList extends React.Component{
 
     
     newItem(){
-        createNewItem(2)
+        const parentID =this.state.genusData[0].id
+        console.log("variety menu parent id",parentID)
+        createNewItem(2,parentID)
     }
 
     render(){
@@ -97,8 +101,13 @@ class renderVarietyElement extends React.Component{
 class varietyRow1 extends React.Component{
        constructor(props){
           super(props)
+          this.delete = this.delete.bind(this)
 
-      } 
+      }
+      
+      delete(){
+        deleteItem(this.props.id)
+      }
 
 
       render(){
@@ -107,9 +116,13 @@ class varietyRow1 extends React.Component{
           {className: "row notamRow1"},
             e("div",{className : "col-3"},
                 e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/batchList.html?id=${this.props.id}`},this.props.name)),
-            e("div",{className : "col-4"},this.props.description),
-            e("div",{className : "col-4"},
-                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/edit.html?id=${this.props.id}&?type=variety`},"Edit"))
+            e("div",{className : "col-3"},this.props.description),
+            e("div",{className : "col-3"},
+                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/edit.html?id=${this.props.id}&?type=variety`},"Edit")
+                ),
+            e("div",{className : "col-3"},
+                e("a",{className : "btn btn-danger", onClick : this.delete},"Delete"))
+            
             )
       }
   }

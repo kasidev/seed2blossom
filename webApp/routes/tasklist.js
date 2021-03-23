@@ -85,10 +85,20 @@ const { isEmpty, max, indexOf } = require("lodash");
 
   //update item
   async itemUpdate(req, res) {
+    console.log("start updating")
+    try {
+      
   
-    this.taskDao.updateItem(req.body.itemId,req.body.key,req.body.value)
+      const updatedItem = await this.taskDao.updateItem(req.body.itemId,req.body.key,req.body.value)
+      
+      res.status(200).send(updatedItem)
+      
+    } catch (error) {
+      console.log("update item error")
+      console.log(error)
+      
+    }
     
-    res.status(200).send()
   }
 
   //add item to database

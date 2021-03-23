@@ -38,7 +38,7 @@ class genusList extends React.Component{
 
 
     newItem(){
-        createNewItem(1)
+        createNewItem(1,null)
     }
 
 

@@ -4,6 +4,7 @@ const moment = require('moment')
 const queryString = require('query-string');
 const {createNewItem} = require('./newItem')
 const apiStrings = require('../utils/apiStrings.json')
+const {deleteItem} = require('./curd')
 
 const e = React.createElement;
 
@@ -23,6 +24,7 @@ let dataObject = [
 class seedList extends React.Component{
     constructor(props){
         super(props)
+        this.newItem=this.newItem.bind(this)
     
         this.state={
         status : 'test'
@@ -33,7 +35,7 @@ class seedList extends React.Component{
 
     
     newItem(){
-        createNewItem(4)
+        createNewItem(4,this.state.batchData[0].id)
     }
 
     render(){
@@ -97,8 +99,14 @@ class renderSeedElement extends React.Component{
 class varietyRow1 extends React.Component{
        constructor(props){
           super(props)
+          this.delete = this.delete.bind(this)
 
       } 
+
+      delete(){
+        deleteItem(this.props.genusID)
+      }
+
 
 
       render(){
@@ -107,9 +115,11 @@ class varietyRow1 extends React.Component{
           {className: "row notamRow1"},
             e("div",{className : "col-3"},
                 e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/seedList?id=${this.props.id}`},this.props.name)),
-            e("div",{className : "col-4"},this.props.description),
-            e("div",{className : "col-4"},
-                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/edit.html?id=${this.props.id}&?type=variety`},"Edit"))
+            e("div",{className : "col-3"},this.props.description),
+            e("div",{className : "col-3"},
+                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/edit.html?id=${this.props.id}&?type=variety`},"Edit")),
+            e("div",{className : "col-3"},
+                e("a",{className : "btn btn-danger", onClick : this.delete},"Delete"))
             )
       }
   }

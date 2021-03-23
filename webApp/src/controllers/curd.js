@@ -111,12 +111,12 @@ module.exports.addItem = function addItem(itemData) {
 }
 
 module.exports.updateItem = function updateItem(updateParams) {
-  
+  console.log("send update", updateParams)
   return axios
   .post(apiStrings.url+'/updateItem',updateParams)
     .then(function (response) {
       // handle success
-      console.log('item updated',updateParams.key,updateParams.value);
+      console.log(response.data, "item updated");
     })
     .catch(function (error) {
       // handle error

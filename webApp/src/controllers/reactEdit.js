@@ -4,9 +4,7 @@ const {addNewProp} = require('./dataQueries')
 const {updateItem} = require('./curd')
 const moment = require('moment')
 const queryString = require('query-string');
-const url ="http://localhost:8080" 
-//"https://seed2blossom.azurewebsites.net"
-//http://localhost:8080
+const apiStrings = require('../utils/apiStrings.json')
 
 const e = React.createElement;
 
@@ -38,16 +36,16 @@ class editForm extends React.Component{
         type = this.state.itemData.typeName
         switch (type) {
             case "genus":
-                return `${url}/pages/index.html`
+                return `${apiStrings.url}/pages/index.html`
             case "variety":
-                return `${url}/pages/varietyList.html?id=${this.state.itemData.genus}`
+                return `${apiStrings.url}/pages/varietyList.html?id=${this.state.itemData.genus}`
             case "batch":
-                return `${url}/pages/batchList.html?id=${this.state.itemData.variety}`
+                return `${apiStrings.url}/pages/batchList.html?id=${this.state.itemData.variety}`
             case "seed":
-                return `${url}/pages/seedList.html?id=${this.state.itemData.batch}`
+                return `${apiStrings.url}/pages/seedList.html?id=${this.state.itemData.batch}`
         
             default:
-                return `${url}/pages/index.html`
+                return `${apiStrings.url}/pages/index.html`
         }
     }
 
@@ -80,7 +78,8 @@ class editForm extends React.Component{
             return Promise
         }
         excecuteUpdate().then(()=>{
-            window.location.replace(this.goBackUrl())
+           // window.location.replace(this.goBackUrl())
+          alert("update complete")
         })
     }
 
@@ -147,18 +146,19 @@ class itemProp extends React.Component{
             value : newValue
         }
         const index = updateLog.findIndex((updateInstr)=>{
-              if(updateInstr.itemId == updateParams.itemId
+              if(updateInstr.itemId === updateParams.itemId
               &&
-              updateInstr.prop == updateParams.prop){
+              updateInstr.key === updateParams.key){
                   return true
               }
             })
         
-        
+        console.log("updatefield",index)
         if (index != -1) {
             updateLog[index] = updateParams
           }else{updateLog.push(updateParams)} 
-    }
+          console.log(updateLog)
+        }
 
     
 
@@ -195,10 +195,10 @@ class varietyRow1 extends React.Component{
           return e("div", 
           {className: "row notamRow1"},
             e("div",{className : "col-3"},
-                e("a",{className : "btn btn-primary", href : `${url}/pages/batchList.html?id=${this.props.id}`},this.props.name)),
+                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/batchList.html?id=${this.props.id}`},this.props.name)),
             e("div",{className : "col-4"},this.props.description),
             e("div",{className : "col-4"},
-                e("a",{className : "btn btn-primary", href : `${url}/edit?id=${this.props.id}&?type=variety`},"Edit"))
+                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/edit?id=${this.props.id}&?type=variety`},"Edit"))
             )
       }
   }
