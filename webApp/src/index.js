@@ -18,6 +18,7 @@ const reactVariety  = require ('../src/controllers/reactVariety')
 const reactBatch  = require ('../src/controllers/reactBatch')
 const reactSeed  = require ('../src/controllers/reactSeed')
 const reactEdit  = require ('../src/controllers/reactEdit')
+const reactEventList  = require ('../src/controllers/reactEventsList')
 
 //soapTest.init()
 

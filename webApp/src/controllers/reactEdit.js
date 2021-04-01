@@ -183,26 +183,6 @@ class itemProp extends React.Component{
 }
 
 
-class varietyRow1 extends React.Component{
-       constructor(props){
-          super(props)
-
-      } 
-
-
-      render(){
-
-          return e("div", 
-          {className: "row notamRow1"},
-            e("div",{className : "col-3"},
-                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/batchList.html?id=${this.props.id}`},this.props.name)),
-            e("div",{className : "col-4"},this.props.description),
-            e("div",{className : "col-4"},
-                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/edit?id=${this.props.id}&?type=variety`},"Edit"))
-            )
-      }
-  }
-
 
 
 const domContainer2 = document.querySelector('#reactEdit')

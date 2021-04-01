@@ -114,7 +114,8 @@ class varietyRow1 extends React.Component{
           {className: "row notamRow1"},
             e("div",{className : "col-3"},
                 e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/seedList.html?id=${this.props.id}`},this.props.name)),
-            e("div",{className : "col-3"},this.props.description),
+            e("div",{className : "col-3"},
+                e("a",{className : "btn btn-success", href : `${apiStrings.url}/pages/events.html?id=${this.props.id}`},"+")),
             e("div",{className : "col-3"},
                 e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/edit.html?id=${this.props.id}&?type=batch`},"Edit")
                 ),
