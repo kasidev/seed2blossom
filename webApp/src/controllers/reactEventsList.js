@@ -55,7 +55,7 @@ class eventList extends React.Component{
 
     
     handleDateChange(dateInput){
-        newEvent.inputDate=moment(dateInput["YYYY-MM-DD"]).unix()
+        newEvent.inputDate=moment(dateInput,"YYYY-MM-DD").unix()
 
     }
     
@@ -84,8 +84,7 @@ class eventList extends React.Component{
             return Promise
         }
         createEvent().then(()=>{
-           // window.location.replace(this.goBackUrl())
-          alert("update complete")
+            alert("update complete")
         })
 
     }
@@ -152,6 +151,7 @@ class renderEvent extends React.Component{
     
     delete(){
         deleteItem(this.props.id)
+        alert("item deleted")
       }
     
 

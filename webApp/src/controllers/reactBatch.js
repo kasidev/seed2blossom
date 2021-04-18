@@ -30,6 +30,7 @@ class batchList extends React.Component{
         status : 'test'
         ,batchData : dataObject[1]
         ,varietyData : dataObject[2]
+        ,genusData : dataObject [3]
         }
     }
 
@@ -48,8 +49,8 @@ class batchList extends React.Component{
 
             e("div",{className : "col-4 align-items-center"},
                 e("a",
-                {className: "", href: `${apiStrings.url}/pages/varietyList.html?id=${this.state.varietyData[0].genus}`}
-                ,`${this.state.varietyData[0].name}`)
+                {className: "h2", href: `${apiStrings.url}/pages/varietyList.html?id=${this.state.varietyData[0].genus}`}
+                ,`${this.state.genusData[0].genus} - ${this.state.varietyData[0].name} - list of batches`)
             )
         )
         ,e("div",{},batchElement)
@@ -138,8 +139,10 @@ const getData = async () => {
     console.log("variety id ",urlQuery.id);
     const batchData = await getItemData("variety",urlQuery.id)
     const varietyData = await getItemData("id",urlQuery.id)
+    const genusData = await getItemData("id",varietyData[0].genus)
     dataObject.push(batchData)
     dataObject.push(varietyData)
+    dataObject.push(genusData)
         return Promise
 }
 export function displayData (reactContainer) {

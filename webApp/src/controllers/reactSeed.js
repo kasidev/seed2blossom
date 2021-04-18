@@ -30,6 +30,8 @@ class seedList extends React.Component{
         status : 'test'
         ,seedData : dataObject[1]
         ,batchData : dataObject[2]
+        ,varietyData : dataObject[3]
+        ,genusData : dataObject[4]
         }
     }
 
@@ -48,8 +50,8 @@ class seedList extends React.Component{
 
             e("div",{className : "col-4 align-items-center"},
                 e("a",
-                {className: "h1", href : `${apiStrings.url}/pages/batchList.html?id=${this.state.batchData[0].variety}`}
-                ,`${this.state.batchData[0].name} List`)
+                {className: "h2", href : `${apiStrings.url}/pages/batchList.html?id=${this.state.batchData[0].variety}`}
+                ,`${this.state.genusData[0].genus} - ${this.state.varietyData[0].name} - ${this.state.batchData[0].name} - List`)
             )
         )
         ,e("div",{},seedElement)
@@ -138,8 +140,12 @@ const getData = async () => {
     console.log("variety id ",urlQuery.id);
     const seedData = await getItemData("batch",urlQuery.id)
     const batchData = await getItemData("id",urlQuery.id)
+    const varietyData = await getItemData("id",batchData[0].variety)
+    const genusData = await getItemData("id",varietyData[0].genus)
     dataObject.push(seedData)
     dataObject.push(batchData)
+    dataObject.push(varietyData)
+    dataObject.push(genusData)
         return Promise
 }
 export function displayData (reactContainer) {
