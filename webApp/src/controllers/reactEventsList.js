@@ -29,6 +29,7 @@ class eventList extends React.Component{
         this.handleChange = this.handleChange.bind(this);
         this.addEvent = this.addEvent.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
+        this.goBackUrl = this.goBackUrl.bind(this);
     
     
         this.state={
@@ -36,8 +37,9 @@ class eventList extends React.Component{
         }
     }
 
-    goBackUrl(type){
-        type = this.state.dataObject.itemData.typeID
+    goBackUrl(){
+       const type = this.state.dataObject.itemData.typeID
+        console.log("item data",this.state.itemData)
         switch (type) {
             case "1":
                 return `${apiStrings.url}/pages/index.html`
