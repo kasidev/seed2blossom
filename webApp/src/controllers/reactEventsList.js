@@ -30,6 +30,7 @@ class eventList extends React.Component{
         this.addEvent = this.addEvent.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
         this.goBackUrl = this.goBackUrl.bind(this);
+        this.familyString = this.familyString.bind(this);
     
     
         this.state={
@@ -39,20 +40,41 @@ class eventList extends React.Component{
 
     goBackUrl(){
        const type = this.state.dataObject.itemData.typeID
-        console.log("item data",this.state.itemData)
+        
         switch (type) {
-            case "1":
+            case 1:
                 return `${apiStrings.url}/pages/index.html`
-            case "2":
-                return `${apiStrings.url}/pages/varietyList.html?id=${this.state.itemData.genus}`
-            case "3":
-                return `${apiStrings.url}/pages/batchList.html?id=${this.state.itemData.variety}`
-            case "4":
-                return `${apiStrings.url}/pages/seedList.html?id=${this.state.itemData.batch}`
+            case 2:
+                return `${apiStrings.url}/pages/varietyList.html?id=${this.state.dataObject.itemData.genus}`
+            case 3:
+                return `${apiStrings.url}/pages/batchList.html?id=${this.state.dataObject.itemData.variety}`
+            case 4:
+                return `${apiStrings.url}/pages/seedList.html?id=${this.state.dataObject.itemData.batch}`
         
             default:
                 return `${apiStrings.url}/pages/index.html`
         }
+    }
+
+    familyString(){
+        const type = this.state.dataObject.itemData.typeID
+        switch (type) {
+            case 1:
+                return ``
+            case 2:
+                return `${this.state.dataObject.parentData.genus.genus} - ${this.state.dataObject.itemData.name}`
+            case 3:
+                return `${this.state.dataObject.parentData.genus.genus} - ${this.state.dataObject.parentData.variety.name} - ${this.state.dataObject.itemData.name}`
+            case 4:
+                return `${this.state.dataObject.parentData.genus.genus} - 
+                ${this.state.dataObject.parentData.variety.name} - 
+                ${this.state.dataObject.parentData.batch.name} - 
+                ${this.state.dataObject.itemData.callsign}`
+        
+            default:
+                return `${apiStrings.url}/pages/index.html`
+        }
+
     }
 
     
@@ -114,17 +136,26 @@ class eventList extends React.Component{
             e("div",{className : "col-4 align-items-center"},
                 e("a",
                 {className: "h3", href: this.goBackUrl()}
-                ,`Eventlist ${this.state.dataObject.itemData.typeName} ${this.state.dataObject.itemData.name}`)
+                ,`Eventlist`) 
             )
         )
+        ,e("div",{className : "row justify-content-center"},
+
+            e("div",{className : "col-12 align-items-center"},
+                e("h5",
+                {className: "h5"}
+                ,this.familyString()) 
+            )
+        )
+        
         ,e("div",{},events)
         ,e("div",{className : "row justify-content-center"}
               
             ,e("div",{className : "col-2"},
-                e("input",{className : "form-control", id: "inputAction", onBlur : this.handleChange})
+                e("input",{className : "form-control", id: "inputAction", onBlur : this.handleChange, placeholder: "action"})
             )
             ,e("div",{className : "col-2"},
-                e("input",{className : "form-control",id: "inputRemark", onBlur : this.handleChange})
+                e("input",{className : "form-control",id: "inputRemark", onBlur : this.handleChange, placeholder: "remark"})
             )
             ,e("div",{className : "col-2"},
                 e("input",{className : "form-control",type: "date",id: "inputDate", onBlur : this.handleChange})
@@ -194,7 +225,42 @@ const getData = async () => {
     console.log("item id ",urlQuery.id);
     const itemData = await getItemData("id",urlQuery.id)
     const eventData = await getItemData("parentID",urlQuery.id)
-    dataObject={"itemData":itemData[0],eventData}
+    const parentData = {}
+    switch (itemData[0].typeID) {
+        case 1:
+            
+            break;
+        case 2:
+            const parDataGenus = await getItemData("id",itemData[0].genus)
+            parentData.genus = parDataGenus[0]
+            break;
+        case 3:
+            
+            const parDataVariety = await getItemData("id",itemData[0].variety)
+            parentData.variety = parDataVariety[0]
+
+            const parDataGenus1 = await getItemData("id",parDataVariety[0].genus)
+            parentData.genus = parDataGenus1[0]
+            
+            break;
+        case 4:
+
+            const parDataBatch = await getItemData("id",itemData[0].batch)
+            parentData.batch = parDataBatch[0]
+            
+            const parDataVariety1 = await getItemData("id",parDataBatch[0].variety)
+            parentData.variety = parDataVariety1[0]
+
+            const parDataGenus2 = await getItemData("id",parDataVariety1[0].genus)
+            parentData.genus = parDataGenus2[0]
+            
+            break;
+    
+        default:
+            break;
+    }
+    
+    dataObject={"itemData":itemData[0],eventData,parentData}
         return Promise
 }
 export function displayData (reactContainer) {
