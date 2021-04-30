@@ -87,6 +87,7 @@ class renderGenusElement extends React.Component{
             genusID : this.props.genusData.id,
             genusKey : this.props.genusData.key,
             genusName : this.props.genusData.genus,
+            commonName : this.props.genusData.commonName,
 
             description: "Description"
         })
@@ -117,7 +118,8 @@ class genusRow1 extends React.Component{
           return e("div", 
           {className: "row genusRow1"},
             e("div",{className : "col-3"},
-                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/varietyList.html?id=${this.props.genusID}`},this.props.genusName)),
+                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/varietyList.html?id=${this.props.genusID}`},
+                `${this.props.genusName} - ${this.props.commonName}`)),
             e("div",{className : "col-3"},
                 e("a",{className : "btn btn-success", href : `${apiStrings.url}/pages/events.html?id=${this.props.id}`},"+")),
             e("div",{className : "col-3"},
