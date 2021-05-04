@@ -6,6 +6,10 @@ config.authKey =
   process.env.AUTH_KEY || apiStrings.azureAuthKey;
 config.databaseId = "seedDBank";
 config.containerId = "botanicalData";
+config.storageAccountName = 
+  /*process.env.AZURE_STORAGE_ACCOUNT_NAME ||*/ apiStrings.storageAccountName;
+config.accountKey = 
+  /*process.env.env.AZURE_STORAGE_ACCOUNT_ACCESS_KEY ||*/ apiStrings.accountKey;
 
 if (config.host.includes("https://localhost:")) {
   console.log("Local environment detected");

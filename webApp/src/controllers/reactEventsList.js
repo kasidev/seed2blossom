@@ -161,7 +161,10 @@ class eventList extends React.Component{
                 e("input",{className : "form-control",type: "date",id: "inputDate", onBlur : this.handleChange})
             )
             ,e("div",{className : "col-2"},
-                e("input",{className : "form-control",type: "file",id:"file-picker",name:"image"})
+                e("form",{id:"upload-form",action:"/uploadData",method:"POST",encType:"multipart/form-data"},
+                    e("input",{className : "form-control",type: "file",id:"file-picker",name:"image"}),
+                    e("input",{type:"submit",value:"Upload image"})
+                )
             )
             ,e("div",{className : "col-3"},
                 e("a",{className : "btn btn-success", onClick : this.addEvent},"Add")
