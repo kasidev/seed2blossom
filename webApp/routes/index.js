@@ -5,6 +5,7 @@ const url = require("url")
 const path = require("path")
 const fs = require("fs")
 const mimeTypes = require("mime-types")
+const config = require("../config")
 
 
 //file upload
@@ -17,19 +18,19 @@ const {
 
 
 const { v1: uuidv1} = require('uuid');
-const containerName1 = 'thumbnails';
 const multer = require('multer');
 const inMemoryStorage = multer.memoryStorage();
 const uploadStrategy = multer({ storage: inMemoryStorage }).single('image');
 const getStream = require('into-stream');
-const containerName2 = 'seedpics';
+const { response } = require('express');
+const containerName = 'seedpics';
 const ONE_MEGABYTE = 1024 * 1024;
 const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
 const ONE_MINUTE = 60 * 1000;
 
 const sharedKeyCredential = new StorageSharedKeyCredential(
-  "kasidevstorage"
-  ,"lrWbC3jxcOl65yj7zyoIqptfkRxmTDSSgiq4PKVhd0/gta3mcJZLINgOiuxrKHMmrccfnm5Yi7hdGil7oGkiSQ=="
+  config.storageAccountName
+  ,config.accountKey
   );
 const pipeline = newPipeline(sharedKeyCredential);
 
@@ -51,7 +52,7 @@ router.get('/viewData', async (req, res, next) => {
   let viewData;
 
   try {
-    const containerClient = blobServiceClient.getContainerClient(containerName1);
+    const containerClient = blobServiceClient.getContainerClient(containerName);
     const listBlobsResponse = await containerClient.listBlobFlatSegment();
 
     for await (const blob of listBlobsResponse.segment.blobItems) {
@@ -62,7 +63,7 @@ router.get('/viewData', async (req, res, next) => {
       title: 'Home',
       viewName: 'index',
       accountName: "kasidevstorage",
-      containerName: containerName1
+      containerName: containerName
     };
 
     if (listBlobsResponse.segment.blobItems.length) {
@@ -83,22 +84,33 @@ router.get('/viewData', async (req, res, next) => {
 });
 
 router.post('/uploadData', uploadStrategy, async (req, res) => {
-
+  console.log("upload requested")
   const blobName = getBlobName(req.file.originalname);
   const stream = getStream(req.file.buffer);
-  const containerClient = blobServiceClient.getContainerClient(containerName2);;
+  const containerClient = blobServiceClient.getContainerClient(containerName);
   const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
   const uploadPicture = async() =>{
-    blockBlobClient.uploadStream(
+    try {
+    const response = blockBlobClient.uploadStream(
       stream,
       uploadOptions.bufferSize, 
       uploadOptions.maxBuffers,
       { blobHTTPHeaders: { blobContentType: "image/jpg" } })
+
+
+      
+    } catch (error) {
+      res.status(500)
+      console.log(error)
+      res.send("file upload failed" + error.name + error.message)
+      
+    }
+    
   }
   uploadPicture().then(()=>{
-    console.log("worked oder so")
-    res.send("iojoij")
+    res.status(200)
+    res.send(blockBlobClient.url)
   })
 
   

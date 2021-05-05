@@ -3,6 +3,8 @@ const axios = require('axios');
 const apiStrings = require('../utils/apiStrings.json')
 
 
+
+
 module.exports.queryAll = function queryAll(test) {
   return axios
   .get('https://kasidevnotam.azurewebsites.net/query?type=task')
@@ -145,6 +147,7 @@ module.exports.deleteItem = function deleteItem(itemId) {
       // always executed
     })
 }
+
 
 
 
