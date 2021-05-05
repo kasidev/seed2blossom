@@ -114,17 +114,7 @@ class eventList extends React.Component{
             const fileForm = new FormData()
             fileForm.append('eventImage',newEvent.image,newEvent.image.name)
             fetch('/uploadImage',{method : 'POST',body : fileForm})
-            //const uploadFileRequest = new XMLHttpRequest()
-            /*uploadFileRequest.open("POST",'http://localhost:8080/uploadData',true)
-            uploadFileRequest.setRequestHeader("encType" , "multipart/form-data")
-
-            uploadFileRequest.onreadystatechange = function() { // Call a function when the state changes.
-                if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-                    // Request finished. Do processing here.
-                }
-            }
-
-            uploadFileRequest.send(fileForm)*/
+           
 
             return Promise
         }
@@ -185,7 +175,6 @@ class eventList extends React.Component{
             ,e("div",{className : "col-2"},
                 e("form",{id:"upload-form",action:"/uploadData",method:"POST",encType:"multipart/form-data"},
                     e("input",{className : "form-control",type: "file",id:"file-picker",name:"image",onChange : this.uploadImage})
-                    ,e("input",{type:"submit",value:"Upload image" /*,onClick: this.uploadImage*/})
                 )
             )
             ,e("div",{className : "col-3"},

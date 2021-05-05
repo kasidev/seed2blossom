@@ -13,7 +13,7 @@ const uploadStrategy = multer({ storage: inMemoryStorage }).single('eventImage')
 const getStream = require('into-stream');
 const containerName = 'seedpics';
 const ONE_MEGABYTE = 1024 * 1024;
-const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 };
+const uploadOptions = { bufferSize: 4 * ONE_MEGABYTE, maxBuffers: 20 ,metadata: {test : "value"}};
 const ONE_MINUTE = 60 * 1000;
 const MulterAzureStorage = require('multer-azure-blob-storage').MulterAzureStorage;
 
@@ -35,11 +35,33 @@ const identifier =  uuidv1();
 return `${identifier}-${originalName}`;
 };
 
+const resolveMetadata = (req, file) => {
+    return new Promise((resolve, reject) => {
+        const metadata = {parent : "htes"}//yourCustomLogic(req, file);
+        resolve(metadata);
+    });
+};
+
+
+const azureStorage = new MulterAzureStorage({
+    connectionString: config.storageConnectionString,
+    accessKey: config.accountKey,
+    accountName: config.storageAccountName,
+    containerName: containerName,
+    blobName: getBlobName,
+    metadata: resolveMetadata,
+    containerAccessLevel: 'blob',
+    urlExpirationTime: 60
+});
+
+const upload2 = multer({storage: azureStorage}).single('eventImage');
+
 
 
 
 module.exports.uploadImage = async function uploadImage(req, res) {
     console.log("upload requested")
+    
     uploadStrategy(req,res,(err) =>{
         if(err){
             console.log(err)
@@ -56,7 +78,9 @@ module.exports.uploadImage = async function uploadImage(req, res) {
             stream,
             uploadOptions.bufferSize, 
             uploadOptions.maxBuffers,
-            { blobHTTPHeaders: { blobContentType: "image/jpg" } })
+            { blobHTTPHeaders: { blobContentType: "image/jpg" },
+             metadata: {testTag : "my tag"}
+             })
 
 
             

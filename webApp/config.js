@@ -8,6 +8,7 @@ config.databaseId = "seedDBank";
 config.containerId = "botanicalData";
 config.storageAccountName =  apiStrings.storageAccountName;
 config.accountKey = apiStrings.accountKey;
+config.storageConnectionString = apiStrings.storageConnectionString;
 
 if (config.host.includes("https://localhost:")) {
   console.log("Local environment detected");
