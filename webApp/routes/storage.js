@@ -56,6 +56,21 @@ const azureStorage = new MulterAzureStorage({
 
 const upload2 = multer({storage: azureStorage}).single('eventImage');
 
+module.exports.deleteImage = async function deleteImage(req,res){
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    console.log("delete blob",req.body.blobID)
+    try {
+        containerClient.deleteBlob(req.body.blobID)
+        res.send(200)
+        
+    } catch (error) {
+        console.log(error)
+        res.send(500)
+    }
+    
+    
+}
+
 
 
 

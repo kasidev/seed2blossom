@@ -6,6 +6,7 @@ const {getItemData} = require('./dataQueries')
 const {addNewProp} = require('./dataQueries')
 const {updateItem} = require('./curd')
 const {addItem} = require('./curd')
+const {deleteBlob} = require('./curd')
 const moment = require('moment')
 const queryString = require('query-string');
 const apiStrings = require('../utils/apiStrings.json')
@@ -227,19 +228,26 @@ class renderEvent extends React.Component{
     
     delete(){
         deleteItem(this.props.id)
+        if (this.state.hasImage) {
+            deleteBlob(this.props.attachements.picture.blobName)
+        }
         alert("item deleted")
       }
     imageUrl(){
+        const state = this.state
         if (this.props.attachements != undefined && this.props.attachements.hasOwnProperty("picture") )  {
             if (!(isNull(this.props.attachements.picture))) {
+                state.hasImage = true
                 return this.props.attachements.picture.url
             }
             else{
+                state.hasImage = false
                 return "https://kasidevstorage.blob.core.windows.net/seedpics/empty_baslik.png"
             }
             
         }
         else{
+            state.hasImage = false
             return "https://kasidevstorage.blob.core.windows.net/seedpics/empty_baslik.png"
         }
 

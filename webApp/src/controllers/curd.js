@@ -148,6 +148,23 @@ module.exports.deleteItem = function deleteItem(itemId) {
     })
 }
 
+module.exports.deleteBlob = function deleteBlob(blobID) {
+  
+  return axios
+  .post(apiStrings.url+'/deleteImage',{blobID})
+    .then(function (response) {
+      // handle success
+      //console.log('item deleted',itemId);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log("an error occured while trying to delete",blobID)
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    })
+}
 
 
 

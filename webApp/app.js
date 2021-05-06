@@ -4,6 +4,7 @@ const TaskList = require('./routes/tasklist')
 const storage = require('./routes/storage')
 const TaskDao = require('./models/taskDao')
 const {uploadImage} = require('./routes/storage')
+const {deleteImage} = require('./routes/storage')
 
 const express = require('express')
 const path = require('path')
@@ -67,6 +68,7 @@ app.post('/updateItem',(req, res, next) =>taskList.itemUpdate(req, res).catch(ne
 app.post('/addItem',(req, res, next) =>taskList.addNew(req, res).catch(next))
 app.post('/deleteItem',(req, res, next) =>taskList.deleteItem(req, res).catch(next))
 app.post('/uploadImage',(req,res,next)=>uploadImage(req, res).catch(next))
+app.post('/deleteImage',(req,res,next)=>deleteImage(req, res).catch(next))
 
 
  
