@@ -154,8 +154,10 @@ class eventList extends React.Component{
 
 
     render(){
-   
-        const events = this.state.dataObject.eventData.map((event,index)=>{
+        const eventsSorted = this.state.dataObject.eventData.sort((a,b)=>{
+            return a.dateTime - b.dateTime
+        })
+        let events = eventsSorted.map((event,index)=>{
 
             return e(renderEvent,
                 {action: event.action,
