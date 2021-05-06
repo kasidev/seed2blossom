@@ -100,7 +100,7 @@ module.exports.addItem = function addItem(itemData) {
     .then(function (response) {
       
       // handle success
-      console.log(response.data,"item added");
+      //console.log(response.data,"item added");
       return response.data
     })
     .catch(function (error) {

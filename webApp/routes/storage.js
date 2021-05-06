@@ -48,9 +48,9 @@ const azureStorage = new MulterAzureStorage({
     accessKey: config.accountKey,
     accountName: config.storageAccountName,
     containerName: containerName,
-    blobName: getBlobName,
+    //blobName: getBlobName,
     metadata: resolveMetadata,
-    containerAccessLevel: 'blob',
+    //containerAccessLevel: 'blob',
     urlExpirationTime: 60
 });
 
@@ -60,8 +60,16 @@ const upload2 = multer({storage: azureStorage}).single('eventImage');
 
 
 module.exports.uploadImage = async function uploadImage(req, res) {
-    console.log("upload requested")
-    
+
+    upload2(req,res,next =>{
+        res.status(200)
+        //console.log("the response", res.req.file)
+        res.send(res.req.file)
+
+    })
+
+ 
+   /*
     uploadStrategy(req,res,(err) =>{
         if(err){
             console.log(err)
@@ -74,14 +82,14 @@ module.exports.uploadImage = async function uploadImage(req, res) {
 
         const uploadPicture = async() =>{
             try {
-            const response = blockBlobClient.uploadStream(
+            const newBlobData = blockBlobClient.uploadStream(
             stream,
             uploadOptions.bufferSize, 
             uploadOptions.maxBuffers,
             { blobHTTPHeaders: { blobContentType: "image/jpg" },
-             metadata: {testTag : "my tag"}
+             metadata: {eventID : "my tag"}
              })
-
+            return newBlobData
 
             
             } catch (error) {
@@ -94,11 +102,12 @@ module.exports.uploadImage = async function uploadImage(req, res) {
         }
         uploadPicture().then(()=>{
             res.status(200)
-            console.log("sucess")
-            res.send("eiji")
+            res.send("test")
         })
         }
-    })
+    })*/
+
+
 }
 
 

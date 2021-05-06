@@ -1,4 +1,7 @@
 'use strict'
+
+import { isNull } from 'lodash'
+
 const {getItemData} = require('./dataQueries')
 const {addNewProp} = require('./dataQueries')
 const {updateItem} = require('./curd')
@@ -98,7 +101,31 @@ class eventList extends React.Component{
 
     addEvent(){
         const createEvent = async () => {
-            addItem({
+            
+            if (newEvent.image) {
+                const fileForm = new FormData()
+                fileForm.append('eventImage',newEvent.image,newEvent.image.name)
+                fetch('/uploadImage',{method : 'POST',body : fileForm}).then(uploadResponse=>{
+                    return uploadResponse.json()
+                }).then(data =>{
+                    newEvent.customAttachments = {picture : data}
+                    console.log("event with picture",newEvent)
+
+                    addItem({
+                        typeName: "event",
+                        typeID: 5,
+                        parentID: this.state.dataObject.itemData.id,
+                        action: newEvent.inputAction,
+                        actionID: null,
+                        dateTime: newEvent.inputDate,
+                        remark: newEvent.inputRemark,
+                        customAttachments : newEvent.customAttachments
+        
+                    })
+                })
+            }
+            else{
+            const newItemData = await addItem({
                 typeName: "event",
                 typeID: 5,
                 parentID: this.state.dataObject.itemData.id,
@@ -106,14 +133,13 @@ class eventList extends React.Component{
                 actionID: null,
                 dateTime: newEvent.inputDate,
                 remark: newEvent.inputRemark,
-                customAttachments: {
-                    picture: null
-                },
+                //customAttachments : newEvent.customAttachments
 
             })
-            const fileForm = new FormData()
-            fileForm.append('eventImage',newEvent.image,newEvent.image.name)
-            fetch('/uploadImage',{method : 'POST',body : fileForm})
+            console.log("new item",newItemData.id)
+            }
+            
+            
            
 
             return Promise
@@ -191,7 +217,10 @@ class renderEvent extends React.Component{
      constructor(props){
         super(props)
         this.delete = this.delete.bind(this)
+        this.imageUrl = this.imageUrl.bind(this)
+        this.toggleImage = this.toggleImage.bind(this)
         this.state={
+            showImage : "row justify-content-center d-none"
         }
     }
 
@@ -200,6 +229,29 @@ class renderEvent extends React.Component{
         deleteItem(this.props.id)
         alert("item deleted")
       }
+    imageUrl(){
+        if (this.props.attachements != undefined && this.props.attachements.hasOwnProperty("picture") )  {
+            if (!(isNull(this.props.attachements.picture))) {
+                return this.props.attachements.picture.url
+            }
+            else{
+                return "https://kasidevstorage.blob.core.windows.net/seedpics/empty_baslik.png"
+            }
+            
+        }
+        else{
+            return "https://kasidevstorage.blob.core.windows.net/seedpics/empty_baslik.png"
+        }
+
+    }
+    toggleImage(){
+        if(this.state.showImage === "row justify-content-center"){
+            this.setState({showImage : "row justify-content-center d-none"})
+        }
+        else{
+            this.setState({showImage : "row justify-content-center"})
+        }
+    }
     
 
     
@@ -207,20 +259,28 @@ class renderEvent extends React.Component{
     render(){
      
 
-        return e("div", 
-        {className: "row justify-content-center"}
-        ,e("div",{className : "col-2"}
-            ,this.props.action)
-        ,e("div",{className : "col-2"}
-            ,this.props.remark)
-        ,e("div",{className : "col-2"}
-            ,moment.unix(this.props.datetime).format("DD-MMM-YYYY")   
-        )
-        ,e("div",{className : "col-3"},
-                e("a",{className : "btn btn-danger", onClick : this.delete},"X")
+        return e("div",{className: "container"}
+            ,e("div", 
+            {className: "row justify-content-center"}
+            ,e("div",{className : "col-2"}
+                ,e("button",{className : "btn btn-primary", onClick : this.toggleImage},this.props.action)
+                )
+            ,e("div",{className : "col-2"}
+                ,this.props.remark)
+            ,e("div",{className : "col-2"}
+                ,moment.unix(this.props.datetime).format("DD-MMM-YYYY")   
+            )
+            ,e("div",{className : "col-3"},
+                    e("a",{className : "btn btn-danger", onClick : this.delete},"X")
+                )
+            )
+            ,e("div", {className: this.state.showImage}
+                ,e("div",{className : "col-6"}
+                ,   e("img", {src: this.imageUrl(), height: 300})
+                )
+            )
         )
 
-        )
         
     }
 }
