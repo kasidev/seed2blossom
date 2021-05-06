@@ -147,7 +147,7 @@ class eventList extends React.Component{
         }
         
         createEvent().then(()=>{
-            alert("update complete")
+            location.reload()
         })
 
     }
@@ -222,6 +222,7 @@ class renderEvent extends React.Component{
         this.toggleImage = this.toggleImage.bind(this)
         this.state={
             showImage : "row justify-content-center d-none"
+            ,displayEvent : "container"
         }
     }
 
@@ -231,7 +232,9 @@ class renderEvent extends React.Component{
         if (this.state.hasImage) {
             deleteBlob(this.props.attachements.picture.blobName)
         }
-        alert("item deleted")
+        const state = this.state
+        state.displayEvent = "container d-none"
+        this.setState(state)
       }
     imageUrl(){
         const state = this.state
@@ -267,7 +270,7 @@ class renderEvent extends React.Component{
     render(){
      
 
-        return e("div",{className: "container"}
+        return e("div",{className: this.state.displayEvent}
             ,e("div", 
             {className: "row justify-content-center"}
             ,e("div",{className : "col-2"}
