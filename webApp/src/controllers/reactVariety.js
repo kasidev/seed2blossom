@@ -51,7 +51,7 @@ class varietyList extends React.Component{
             e("div",{className : "col-4 align-items-center"},
                 e("a",
                 {className: "h2", href: `${apiStrings.url}/pages/index.html`}
-                ,`${this.state.genusData[0].genus} List of varieties`)
+                ,`${this.state.genusData[0].genus} - varieties`)
             )
         )
         ,e("div",{},varietyElement)

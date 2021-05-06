@@ -47,10 +47,10 @@ class batchList extends React.Component{
         {className: "container"},
         e("div",{className : "row justify-content-center"},
 
-            e("div",{className : "col-4 align-items-center"},
+            e("div",{className : "col-12 align-items-center"},
                 e("a",
                 {className: "h2", href: `${apiStrings.url}/pages/varietyList.html?id=${this.state.varietyData[0].genus}`}
-                ,`${this.state.genusData[0].genus} - ${this.state.varietyData[0].name} - list of batches`)
+                ,`${this.state.genusData[0].genus} - ${this.state.varietyData[0].name} - batches`)
             )
         )
         ,e("div",{},batchElement)

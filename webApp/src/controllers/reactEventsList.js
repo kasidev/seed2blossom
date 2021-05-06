@@ -147,7 +147,7 @@ class eventList extends React.Component{
         }
         
         createEvent().then(()=>{
-            location.reload()
+            //location.reload()
         })
 
     }
@@ -309,8 +309,9 @@ const getData = async () => {
     const urlQuery = queryString.parse(location.search);
     console.log("item id ",urlQuery.id);
     const itemData = await getItemData("id",urlQuery.id)
-    const eventData = await getItemData("parentID",urlQuery.id)
+    let eventData = await getItemData("parentID",urlQuery.id)
     const parentData = {}
+    
     switch (itemData[0].typeID) {
         case 1:
             
@@ -318,26 +319,39 @@ const getData = async () => {
         case 2:
             const parDataGenus = await getItemData("id",itemData[0].genus)
             parentData.genus = parDataGenus[0]
+            const genusEvents = await getItemData("parentID",parentData.genus.id)
+            eventData = eventData.concat(genusEvents)
             break;
         case 3:
             
             const parDataVariety = await getItemData("id",itemData[0].variety)
             parentData.variety = parDataVariety[0]
+            const varietyEvents = await getItemData("parentID",parentData.variety.id)
+            eventData = eventData.concat(varietyEvents)
+            
 
             const parDataGenus1 = await getItemData("id",parDataVariety[0].genus)
             parentData.genus = parDataGenus1[0]
+            const genusEvents1 = await getItemData("parentID",parentData.genus.id)
+            eventData = eventData.concat(genusEvents1)
             
             break;
         case 4:
 
             const parDataBatch = await getItemData("id",itemData[0].batch)
             parentData.batch = parDataBatch[0]
+            const batchEvents = await getItemData("parentID",parentData.batch.id)
+            eventData = eventData.concat(batchEvents)
             
             const parDataVariety1 = await getItemData("id",parDataBatch[0].variety)
             parentData.variety = parDataVariety1[0]
+            const varietyEvents1 = await getItemData("parentID",parentData.variety.id)
+            eventData = eventData.concat(varietyEvents1)
 
             const parDataGenus2 = await getItemData("id",parDataVariety1[0].genus)
             parentData.genus = parDataGenus2[0]
+            const genusEvents2 = await getItemData("parentID",parentData.genus.id)
+            eventData = eventData.concat(genusEvents2)
             
             break;
     

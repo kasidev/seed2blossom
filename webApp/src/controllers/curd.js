@@ -136,7 +136,7 @@ module.exports.deleteItem = function deleteItem(itemId) {
   .post(apiStrings.url+'/deleteItem',{itemId})
     .then(function (response) {
       // handle success
-      console.log('item deleted',itemId);
+      //console.log('item deleted',itemId);
     })
     .catch(function (error) {
       // handle error

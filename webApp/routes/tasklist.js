@@ -80,7 +80,7 @@ const { isEmpty, max, indexOf } = require("lodash");
         }
       ]
     };
-    console.log("find with prop",querySpec)
+    //onsole.log("find with prop",querySpec)
     const items = await this.taskDao.find(querySpec)
 
     res.status(200).send(items)

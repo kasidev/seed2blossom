@@ -48,10 +48,10 @@ class seedList extends React.Component{
         {className: "container"},
         e("div",{className : "row justify-content-center"},
 
-            e("div",{className : "col-4 align-items-center"},
+            e("div",{className : "col-12 align-items-center"},
                 e("a",
                 {className: "h2", href : `${apiStrings.url}/pages/batchList.html?id=${this.state.batchData[0].variety}`}
-                ,`${this.state.genusData[0].genus} - ${this.state.varietyData[0].name} - ${this.state.batchData[0].name} - List`)
+                ,`${this.state.genusData[0].genus} - ${this.state.varietyData[0].name} - ${this.state.batchData[0].name}`)
             )
         )
         ,e("div",{},seedElement)
@@ -116,7 +116,7 @@ class varietyRow1 extends React.Component{
           return e("div", 
           {className: "row notamRow1"},
             e("div",{className : "col-3"},
-                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/seedList?id=${this.props.id}`},this.props.name)),
+                e("a",{className : "btn btn-primary", href : `${apiStrings.url}/pages/events.html?id=${this.props.id}`},this.props.name)),
             e("div",{className : "col-3"},
                 e("a",{className : "btn btn-success", href : `${apiStrings.url}/pages/events.html?id=${this.props.id}`},"+")),
             e("div",{className : "col-3"},
